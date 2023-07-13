@@ -2,7 +2,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
 const crypto = require("crypto");
-const transporter = require("../helpers/transporter")
+const transporter = require("../helpers/transporter");
+const employee_detail = require("../models/employee_detail");
 
 const { User } = db;
 
@@ -11,9 +12,7 @@ const secretKey = process.env.JWT_SECRET_KEY;
 module.exports = {
 
   async registerAdmin(req, res) {
-
-    const { email } =
-        req.body;
+    const { email, basic_salary } = req.body;
         try {
             const isExist = await User.findOne({
               where: {
@@ -32,13 +31,18 @@ module.exports = {
             const time = new Date();
       
             const salt = await bcrypt.genSalt(10);
-            const hashPassword = await bcrypt.hash(password, salt);
-      
+            const hashPassword = await bcrypt.hash("", salt);
+
+            const newSalary = await db.Salary.create({
+                basic_salary
+            })
+
             const newUser = await User.create({
               email,
               password: hashPassword,
               access_token,
-              exp_access_token: time
+              exp_access_token: time,
+              role_id: 2,
             });
 
             await transporter.sendMail({
@@ -50,7 +54,7 @@ module.exports = {
             })
       
             res.status(201).send({
-              message: "registration success",
+              message: "please tell the employee to check their email",
               data: {
                 email: newUser.email,
               },
@@ -66,6 +70,10 @@ module.exports = {
 
   async updateEmployeeData(req, res) {
     const token = req.query.token
+
+    const { password } = req.body;
+    const {full_name, birth_date} = req.body;
+
 
     try {
       const userData = await db.User.findOne({
@@ -87,17 +95,25 @@ module.exports = {
           message: "token is already expired",
         });
       }
+      
+      const newUser = await db.Employee_detail.create({
+        full_name,
+        birth_date,
+        join_date: new Date(),
+        user_id: userData.id,
+        salary_id: userData.id,
+      });
 
       // generate password
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
 
-      userData.password = hashPassword;
-      userData.forgotToken = null;
-      userData.forgotTokenCreatedAt = null;
+      userData.password = hashPassword
+
       await userData.save();
+
       res.send({
-        message: "password is reset, try to login now!",
+        message: "data is saved, welcome aboard!",
       });
     } catch (errors) {
       console.error(errors);
