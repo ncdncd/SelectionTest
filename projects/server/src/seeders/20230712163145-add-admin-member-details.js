@@ -15,8 +15,7 @@ module.exports = {
     return queryInterface.bulkInsert('Employee_details', [
       {
         id: 1,
-        first_name: 'Andre',
-        last_name: 'Taulany',
+        full_name: 'Andre Taulany',
         birth_date: new Date(),
         join_date: new Date(),
         user_id: 1,
