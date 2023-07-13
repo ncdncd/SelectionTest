@@ -11,6 +11,7 @@ module.exports = {
       },
       email: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING
       },
       password: {
@@ -22,10 +23,18 @@ module.exports = {
         type: Sequelize.STRING
       },
       exp_access_token: {
+        allowNull: true,
         type: Sequelize.DATE
       },
       role_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Roles",
+          key: "id"
+        },
+        onDelete:"CASCADE",
+        onUpdate:"CASCADE",
       },
       createdAt: {
         allowNull: false,
