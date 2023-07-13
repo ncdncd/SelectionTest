@@ -12,18 +12,18 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.bulkInsert('Roles', [{
-      id: 1,
-      name: "admin",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      id: 2,
-      name: "staff",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }]);
+    return queryInterface.bulkInsert('Employee_details', [
+      {
+        id: 1,
+        first_name: 'Andre',
+        last_name: 'Taulany',
+        birth_date: new Date(),
+        join_date: new Date(),
+        user_id: 1,
+        salary_id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }]);
   },
 
   async down (queryInterface, Sequelize) {
@@ -33,6 +33,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Roles", null, {});
+    await queryInterface.bulkDelete("Employee_details", null, {});
   }
 };
