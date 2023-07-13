@@ -14,9 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsTo(models.Role,
         {foreignKey: "role_id"});
       User.hasMany(models.Attendance,
-        {foreignKey: "user_id"})
+        {foreignKey: "user_id"});
       User.hasOne(models.Employee_detail,
-        {foreignKey: "user_id"})
+        {foreignKey: "user_id"});
+      User.hasMany(models.Payroll,
+        {foreignKey: "user_id"});
     }
   }
   User.init({
