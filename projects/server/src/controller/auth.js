@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const crypto = require("crypto");
 const transporter = require("../helpers/transporter");
-const employee_detail = require("../models/employee_detail");
 
 const { User } = db;
 
@@ -19,12 +18,10 @@ module.exports = {
                 email
               },
             });
-    
             if (isExist) {
-              res.status(400).send({
-                message: "username/email/phone number already registered",
+              return res.status(400).send({
+                message: "email already registered",
               });
-              return;
             }
 
             const access_token = crypto.randomBytes(16).toString("hex");
@@ -50,7 +47,7 @@ module.exports = {
                 to: email,
                 subject:"link for authentication",
                 html:`<p>Click on this link to edit your info and credentials
-                <a href='${process.env.BASEPATH}/access?token=${access_token}' target="_blank">Verify Account</a></p>`,
+                <a href='${process.env.BASEPATH_FE}/access?token=${access_token}' target="_blank">Verify Account</a></p>`,
             })
       
             res.status(201).send({
@@ -108,7 +105,9 @@ module.exports = {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
 
-      userData.password = hashPassword
+      userData.password = hashPassword;
+      userData.access_token = null;
+      userData.exp_access_token = null;
 
       await userData.save();
 
