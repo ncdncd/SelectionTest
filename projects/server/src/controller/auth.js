@@ -144,9 +144,9 @@ module.exports = {
         });
       }
 
-      const payload = { id: user.id };
+      const payload = { id: user.id, role_id: user.role_id  };
       const token = jwt.sign(payload, secretKey, {
-        expiresIn: "1h",
+        expiresIn: "12h",
       });
       res.send({
         message: "login success",

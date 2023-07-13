@@ -24,6 +24,7 @@ app.use(express.json());
 // NOTE : Add your routes here
 
 app.use("/api/auth", routes.auth);
+app.use("/api/attendance", routes.attendance);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);

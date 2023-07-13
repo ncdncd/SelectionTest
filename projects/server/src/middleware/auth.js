@@ -59,7 +59,13 @@ module.exports = {
           return;
         }
         req.user = payload;
-         next();
+        if(req.user.role_id === 1){
+            next();
+        }else{
+            res.status(401).send({
+                    message: "not authorized",
+            });
+        }
       } catch (error) {
         res.status(401).send({
           message: "invalid token",
