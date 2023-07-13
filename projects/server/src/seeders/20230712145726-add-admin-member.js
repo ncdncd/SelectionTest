@@ -1,14 +1,20 @@
 'use strict';
 const bcrypt = require('bcryptjs');
 
-const makePassword = (pw) => {
-  return new Promise(async rs => {
-    let salt, hash;
-    salt = await bcrypt.genSalt(10);
-    hash = await bcrypt.hash(pw, salt);
-    return rs(hash);
-  })
-}
+// const makePassword = (password) => {
+//   return new Promise(async res => {
+//     let salt, hash;
+//     salt = await bcrypt.genSalt(10);
+//     hash = await bcrypt.hash(password, salt);
+//     return res(hash);
+//   })
+// }
+
+const makePassword = async (pass) => {
+  let salt = await bcrypt.genSalt(10);
+  let hashed = await bcrypt.hash(pass, salt);
+  return hashed;
+};
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

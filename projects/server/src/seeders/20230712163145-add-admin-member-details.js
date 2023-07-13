@@ -16,8 +16,8 @@ module.exports = {
       {
         id: 1,
         full_name: 'Andre Taulany',
-        birth_date: new Date(),
-        join_date: new Date(),
+        birth_date: new Date(1973, 1, 1),
+        join_date: new Date(2007, 5, 5),
         user_id: 1,
         salary_id: 1,
         createdAt: new Date(),

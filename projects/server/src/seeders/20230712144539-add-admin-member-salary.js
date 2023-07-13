@@ -15,7 +15,7 @@ module.exports = {
     return queryInterface.bulkInsert('Salaries', [
       {
         id: 1,
-        basic_salary: 3500000,
+        basic_salary: 6000000,
         createdAt: new Date(),
         updatedAt: new Date()
       }]);
