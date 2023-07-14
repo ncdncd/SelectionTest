@@ -27,4 +27,10 @@ router.post(
     attendanceController.calculatePayAtEoM
 );
 
+router.get(
+    "/payroll",
+    authMiddleware.verifyTokenStaff,
+    attendanceController.employeePayrollReport
+);
+
 module.exports = router;

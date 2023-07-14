@@ -189,4 +189,37 @@ module.exports = {
         }
     },
 
+    async employeePayrollReport(req, res) {
+
+        const userId = req.user.id;
+
+        const {month, year} = req.body;
+
+        try {
+
+          const payRollData = await db.Payroll.findOne({
+            where: {
+              user_id: userId,
+              date: new Date(`${year}-${month + 1}`)
+            },
+          });
+          if (!payRollData) {
+            return res.status(400).send({
+              message: "payroll data not found",
+            });
+          }
+          
+          res.send({
+            message: "your payroll for the chosen timeframe",
+            data: payRollData,
+          });
+
+        } catch (error) {
+          res.status(500).send({
+            message: "fatal error on server",
+            error: error.message,
+          });
+        }
+    },
+
 }
