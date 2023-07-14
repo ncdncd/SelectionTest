@@ -21,11 +21,11 @@ module.exports = {
       },
       clock_in: {
         allowNull: true,
-        type: Sequelize.DATE
+        type: Sequelize.TIME
       },
       clock_out: {
         allowNull: true,
-        type: Sequelize.DATE
+        type: Sequelize.TIME
       },
       createdAt: {
         allowNull: false,

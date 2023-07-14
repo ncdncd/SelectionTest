@@ -9,4 +9,10 @@ router.post(
   attendanceController.clockIn
 );
 
+router.patch(
+    "/clockout",
+    authMiddleware.verifyTokenStaff,
+    attendanceController.clockOut
+  );
+
 module.exports = router;

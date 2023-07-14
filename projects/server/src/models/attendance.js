@@ -18,7 +18,9 @@ module.exports = (sequelize, DataTypes) => {
   Attendance.init({
     user_id: DataTypes.INTEGER,
     clock_in: DataTypes.DATE,
-    clock_out: DataTypes.DATE
+    clock_out: DataTypes.DATE,
+    date: DataTypes.TIME,
+    isValid: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'Attendance',
