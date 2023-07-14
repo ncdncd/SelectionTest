@@ -1,4 +1,4 @@
-
+const { Sequelize } = require("sequelize");
 const db = require("../models");
 const dayjs = require('dayjs');
 
@@ -83,5 +83,44 @@ module.exports = {
           });
         }
       },
+
+      async attendanceLog(req, res) {
+
+        const userId = req.user.id;
+
+        const {month, year} = req.body;
+
+        try {
+
+          const clockData = await db.Attendance.findAll({
+            where: {
+              user_id: userId,
+              date: {[Sequelize.Op.between]: 
+                [new Date(`${year}-${month}-1`),new Date(`${year}-${month + 1}`)]}
+            },
+          });
+          if (clockData === "") {
+            return res.status(400).send({
+              message: "zero attendance data found",
+            });
+          }
+          if (!clockData) {
+            return res.status(400).send({
+              message: "attendance data not found",
+            });
+          }
+          
+          res.send({
+            message: "attendance data displayed",
+            data: clockData,
+          });
+
+        } catch (error) {
+          res.status(500).send({
+            message: "fatal error on server",
+            error: error.message,
+          });
+        }
+      },  
 
 }

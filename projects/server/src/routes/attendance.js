@@ -13,6 +13,12 @@ router.patch(
     "/clockout",
     authMiddleware.verifyTokenStaff,
     attendanceController.clockOut
-  );
+);
+
+router.get(
+    "/history",
+    authMiddleware.verifyTokenStaff,
+    attendanceController.attendanceLog
+);
 
 module.exports = router;
