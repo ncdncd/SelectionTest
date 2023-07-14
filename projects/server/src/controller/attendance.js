@@ -125,7 +125,7 @@ module.exports = {
 
     async calculatePayAtEoM(req, res) {
 
-        const userId = req.user.id;
+        const userId = req.body.id;
 
         const {month, year} = req.body;
 
@@ -164,16 +164,21 @@ module.exports = {
 
         const notValidCount = payData[0].Attendances.filter(
             aData => aData.isValid === false).length
-        
-        function deduct(aData, dayPay, valid){
-            return ((21 - (21 - aData[0].Attendances.length)) * dayPay) - valid * Math.floor(dayPay/2) 
-          }
 
-        const totalPay = deduct(payData, payPerDay, notValidCount)
+        const totalDeduction = 
+        ((21 - payData[0].Attendances.length) * payPerDay) + 
+        notValidCount * Math.floor(payPerDay/2)
+
+        const newPayroll = await db.Payroll.create({
+            user_id: userId,
+            date: new Date(`${year}-${month + 1}`),
+            total_deduction: totalDeduction,
+            total_payroll: payData[0].Employee_detail.Salary.basic_salary - totalDeduction
+        });
           
           res.send({
-            message: "your pay for this month",
-            data: totalPay,
+            message: "payroll for that employee this month",
+            data: newPayroll,
           });
 
         } catch (error) {

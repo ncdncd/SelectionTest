@@ -21,9 +21,9 @@ router.get(
     attendanceController.attendanceLog
 );
 
-router.get(
+router.post(
     "/pay",
-    authMiddleware.verifyTokenStaff,
+    authMiddleware.verifyTokenAdmin,
     attendanceController.calculatePayAtEoM
 );
 

@@ -17,24 +17,15 @@ const validate = (validations) => {
 };
 
 module.exports = {
-  validateRegister: validate([
-    body("username")
-      .notEmpty()
-      .withMessage("username is required")
-      .isLength({ max: 50 })
-      .withMessage("Maximum character is 50"),
+  validateRegisterAdmin: validate([
     body("email").isEmail(),
-    body("phoneNumber").notEmpty(),
-    body("password")
-      .isLength({ min: 6 })
-      .withMessage("minimum password length is 6 characters")
+  ]),
 
-      .custom((value, { req }) => {
-        if (value !== req.body.confirmPassword) {
-          return false;
-        }
-        return true;
-      })
-      .withMessage("confirm password is not match with password"),
+  validateEmployeePassword: validate([
+    body("password")
+      .isLength({ min: 8 })
+      .withMessage("minimum password length is 8 characters")
+      .isStrongPassword()
+      .withMessage("password needs to have at least one capital letter, a number, and a special character")
   ]),
 };
