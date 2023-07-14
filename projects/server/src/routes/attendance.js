@@ -21,4 +21,10 @@ router.get(
     attendanceController.attendanceLog
 );
 
+router.get(
+    "/pay",
+    authMiddleware.verifyTokenStaff,
+    attendanceController.calculatePayAtEoM
+);
+
 module.exports = router;
