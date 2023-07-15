@@ -222,4 +222,35 @@ module.exports = {
         }
     },
 
+    async clockToday(req, res) {
+
+        const userId = req.user.id;
+
+        try {
+
+          const clockData = await db.Attendance.findOne({
+            where: {
+              user_id: userId,
+              date: moment().format('YYYY-MM-DD'),
+            },
+          });
+          if (!clockData) {
+            return res.status(400).send({
+              message: "no clock in data today",
+            });
+          }
+          
+          res.send({
+            message: "clock data today",
+            data: clockData,
+          });
+
+        } catch (error) {
+          res.status(500).send({
+            message: "fatal error on server",
+            error: error.message,
+          });
+        }
+    },
+
 }

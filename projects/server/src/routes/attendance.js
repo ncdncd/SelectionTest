@@ -16,6 +16,12 @@ router.patch(
 );
 
 router.get(
+    "/clock",
+    authMiddleware.verifyTokenStaff,
+    attendanceController.clockToday
+);
+
+router.get(
     "/history",
     authMiddleware.verifyTokenStaff,
     attendanceController.attendanceLog
