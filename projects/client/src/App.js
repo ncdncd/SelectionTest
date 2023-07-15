@@ -9,11 +9,21 @@ import {
 } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setToken } from "./features/authSlice";
+import RegisterPage from "./pages/Register";
+import SetEmployeeInfo from "./pages/SetEmployeeInfo";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/access",
+    element: <SetEmployeeInfo />,
   },
 ]);
 

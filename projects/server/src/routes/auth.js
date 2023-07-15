@@ -14,6 +14,10 @@ router.post(
   authController.updateEmployeeData
 );
 
-router.post("/login", authController.login);
+router.post(
+  "/login", 
+  validateMiddleware.validateEmployeePassword, 
+  authController.login
+);
 
 module.exports = router;

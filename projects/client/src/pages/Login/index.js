@@ -16,7 +16,7 @@ import "boxicons";
 const createSchema = Yup.object().shape({
   password: Yup.string()
     .required("Password is required")
-    .min(8, "Password must be 6 characters at minimum")
+    .min(8, "Password must be 8 characters at minimum")
     .matches(
         /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
         "Password must contain atleast 1 uppercase letter, 1 symbol, and 1 lowercase letter"
@@ -117,7 +117,7 @@ const LoginPage = () => {
               </div>
               <Button type="submit" className="bg-[#2E4F4F] border-2 border-[#CBE4DE]">Submit</Button>
               <span className="text-white">
-                contact the admin or your supervisor if you don't have an account yet{" "}
+                contact the admin or your supervisor if you don't have an account yet
               </span>
             </form>
           )}

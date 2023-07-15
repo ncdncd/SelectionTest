@@ -1,0 +1,149 @@
+import { useState } from "react";
+import axios from "axios";
+import { Alert } from "flowbite-react";
+import * as Yup from "yup";
+import { Formik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { Button, Label, TextInput, Textarea } from "flowbite-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import { HiInformationCircle } from "react-icons/hi";
+
+const createSchema = Yup.object().shape({
+    password: Yup.string()
+      .required("Password is required")
+      .min(8, "Password must be 8 characters at minimum")
+      .matches(
+          /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[a-z]).{8,}$/,
+          "Password must contain atleast 1 uppercase letter, 1 symbol, and 1 lowercase letter"
+        ),
+  });
+
+const SetEmployeeInfo = () => {
+    
+    let params = (new URLSearchParams(window.location.href)).get("token")
+  
+    const [value, setValue] = useState("");
+    const [alertMessage, setAlertMessage] = useState("");
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [birthDate, setBirthDate] = useState(new Date());
+
+    const navigate = useNavigate();
+
+    function togglePasswordVisibility() {
+        setIsPasswordVisible((prevState) => !prevState);
+    }
+    
+    const handleSubmit = (values, action) => {
+  
+      axios
+        .patch(`http://localhost:8000/api/auth/access?token=${params}`, values)
+  
+        .then((response) => {
+          setValue(response.data);
+          setAlertMessage(response.data.message);
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        })
+        .catch((err) => console.log(err));
+    };
+  
+    return (
+      <>
+        {alertMessage ? (
+          <Alert
+            color="success"
+            icon={HiInformationCircle}
+            onDismiss={() => setAlertMessage("")}
+          >
+            <span>
+              <p>
+                <span className="font-medium">{alertMessage}</span>
+              </p>
+            </span>
+          </Alert>
+        ) : (
+          alertMessage
+        )}
+        <Formik
+          initialValues={{
+            password: "",
+            full_name: "",
+            birth_date: "",
+          }}
+          validationSchema={createSchema}
+          onSubmit={handleSubmit}
+        >
+          {(props) => (
+            <div className="flex flex-col items-center justify-center my-32 ml-96 mr-96 bg-[#0E8388]
+            border-4 rounded border-[#CBE4DE] pt-16 pb-16" >
+              <span className="font-bold text-white">input your new password, full name, and birth date</span>
+            <form className="flex flex-col gap-4" onSubmit={props.handleSubmit}>
+              <div className="flex flex-col justify-center items-center ">
+                <div className="mb-2 block">
+                <Label
+                    style={{ fontSize: "18px" }}
+                    htmlFor="password"
+                    value="password"
+                    className="text-white"
+                  />
+                </div>
+                <TextInput
+                  className="input-wrapper"
+                  style={{ lineHeight: "40px", width: "350px" }}
+                  id="password"
+                  name="password"
+                  required
+                  type={isPasswordVisible ? "text" : "password"}
+                  onChange={props.handleChange}
+                  value={props.values.password}
+                />
+                <label className="flex items-center mt-2">
+                <input
+                  type="checkbox"
+                  className="mr-2 w-4 h-4"
+                  checked={isPasswordVisible}
+                  onChange={togglePasswordVisibility}
+                />
+                <span className="text-sm text-white">Show password</span>
+              </label>
+                <div className="mb-2 block">
+                <Label
+                    style={{ fontSize: "18px" }}
+                    htmlFor="full_name"
+                    value="full name"
+                    className="text-white"
+                  />
+                </div>
+                <TextInput
+                  className="input-wrapper"
+                  style={{ lineHeight: "40px", width: "350px" }}
+                  id="full_name"
+                  name="full_name"
+                  required
+                  type="text"
+                  onChange={props.handleChange}
+                  value={props.values.full_name}
+                />
+                <Label
+                    style={{ fontSize: "18px" }}
+                    htmlFor="birth_date"
+                    value="birth date"
+                    className="text-white"
+                  />
+                <DatePicker wrapperClassName="" selected={birthDate} onChange={(date) => setBirthDate(date)} />
+                <Button size="lg" type="submit">
+                    Post
+                </Button>
+              </div>
+            </form>
+        </div>
+          )}
+        </Formik>
+      </>
+    );
+  };
+
+export default SetEmployeeInfo;
