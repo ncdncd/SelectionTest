@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 const db = require("../models");
-const dayjs = require('dayjs');
+const moment = require('moment-timezone');
 
 module.exports = {
 
@@ -13,7 +13,7 @@ module.exports = {
           const isClockedIn = await db.Attendance.findOne({
             where: {
               user_id: userId,
-              date: dayjs().format('YYYY-MM-DD')
+              date: moment().format('YYYY-MM-DD')
             },
           });
           if (isClockedIn) {
@@ -25,8 +25,8 @@ module.exports = {
 
           const clockInTime = await db.Attendance.create({
             user_id: userId,
-            clock_in: dayjs(),
-            date: dayjs().format('YYYY-MM-DD'),
+            clock_in: moment(),
+            date: moment().format('YYYY-MM-DD'),
             isValid: false,
           });
     
@@ -52,7 +52,7 @@ module.exports = {
           const isClockedIn = await db.Attendance.findOne({
             where: {
               user_id: userId,
-              date: dayjs().format('YYYY-MM-DD'),
+              date: moment().format('YYYY-MM-DD'),
             },
           });
           if (!isClockedIn) {
@@ -66,7 +66,7 @@ module.exports = {
             });
           }
 
-          isClockedIn.clock_out = new Date();
+          isClockedIn.clock_out = moment();
           isClockedIn.isValid = true;
           
           await isClockedIn.save();

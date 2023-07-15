@@ -11,10 +11,16 @@ import { useDispatch } from "react-redux";
 import { setToken } from "./features/authSlice";
 import RegisterPage from "./pages/Register";
 import SetEmployeeInfo from "./pages/SetEmployeeInfo";
+import HomePage from "./pages/Home";
+import ClockPage from "./pages/ClockPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/login",
     element: <LoginPage />,
   },
   {
@@ -24,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/access",
     element: <SetEmployeeInfo />,
+  },
+  {
+    path: "/clock",
+    element: <ClockPage />,
   },
 ]);
 

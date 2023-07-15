@@ -45,7 +45,7 @@ const SetEmployeeInfo = () => {
           setAlertMessage(response.data.message);
           setTimeout(() => {
             navigate("/");
-          }, 2000);
+          }, 3000);
         })
         .catch((err) => console.log(err));
     };
