@@ -10,13 +10,6 @@ import {
 import { useDispatch } from "react-redux";
 import { setToken } from "./features/authSlice";
 
-const Layout = () => {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
-};
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,7 +24,7 @@ function App() {
     if (token) {
       dispatch(setToken(token));
     }
-  }, []);
+  },);
 
   return (
     <div>

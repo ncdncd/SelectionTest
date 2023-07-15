@@ -39,7 +39,7 @@ const LoginPage = () => {
         })
         .catch (e =>{
           console.log(e);
-          setError(e.response.data.message)   
+          setError(e.response.data)   
         });
     
   };
@@ -87,7 +87,7 @@ const LoginPage = () => {
                 </div>
                 <TextInput
                   className="input-wrapper"
-                  style={{ lineHeight: "40px" }}
+                  style={{ lineHeight: "40px", width: "350px" }}
                   id="email"
                   name="email"
                   required
@@ -106,7 +106,7 @@ const LoginPage = () => {
                 </div>
                 <TextInput
                   className="input-wrapper"
-                  style={{ lineHeight: "40px" }}
+                  style={{ lineHeight: "40px", width: "350px" }}
                   id="password"
                   name="password"
                   required
