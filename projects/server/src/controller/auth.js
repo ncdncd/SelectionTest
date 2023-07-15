@@ -66,16 +66,15 @@ module.exports = {
   },
 
   async updateEmployeeData(req, res) {
-    const token = req.query.token
 
     const { password } = req.body;
-    const {full_name, birth_date} = req.body;
+    const {full_name, birth_date, access_token} = req.body;
 
 
     try {
       const userData = await db.User.findOne({
         where: {
-          access_token: token,
+          access_token,
         },
       });
       if (!userData) {

@@ -2,11 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import { Alert } from "flowbite-react";
 import * as Yup from "yup";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatepickerField from "./Datepickerfield";
+
 
 import { HiInformationCircle } from "react-icons/hi";
 
@@ -22,7 +22,7 @@ const createSchema = Yup.object().shape({
 
 const SetEmployeeInfo = () => {
     
-    let params = (new URLSearchParams(window.location.href)).get("token")
+    const tokenParams = new URLSearchParams(window.location.search).get('token')
   
     const [value, setValue] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
@@ -38,7 +38,7 @@ const SetEmployeeInfo = () => {
     const handleSubmit = (values, action) => {
   
       axios
-        .patch(`http://localhost:8000/api/auth/access?token=${params}`, values)
+        .post(`http://localhost:8000/api/auth/access`, values)
   
         .then((response) => {
           setValue(response.data);
@@ -69,6 +69,7 @@ const SetEmployeeInfo = () => {
         )}
         <Formik
           initialValues={{
+            access_token: tokenParams,
             password: "",
             full_name: "",
             birth_date: "",
@@ -133,8 +134,8 @@ const SetEmployeeInfo = () => {
                     value="birth date"
                     className="text-white"
                   />
-                <DatePicker wrapperClassName="" selected={birthDate} onChange={(date) => setBirthDate(date)} />
-                <Button size="lg" type="submit">
+                  <Field name="birth_date" component={DatepickerField} />
+                  <Button type="submit" className="bg-[#2E4F4F] border-2 border-[#CBE4DE]">
                     Post
                 </Button>
               </div>
