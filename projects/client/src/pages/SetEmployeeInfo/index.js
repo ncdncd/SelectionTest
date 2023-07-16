@@ -28,6 +28,7 @@ const SetEmployeeInfo = () => {
     const [alertMessage, setAlertMessage] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [birthDate, setBirthDate] = useState(new Date());
+    const [isError, setError] = useState("");
 
     const navigate = useNavigate();
 
@@ -47,7 +48,9 @@ const SetEmployeeInfo = () => {
             navigate("/");
           }, 3000);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setError(err.response.data.message) 
+        });
     };
   
     return (

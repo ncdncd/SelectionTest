@@ -92,7 +92,7 @@ module.exports = {
 
         const pagination = {
           page: Number(req.query.page) || 1,
-          perPage: Number(req.query.perPage) || 7,
+          perPage: Number(req.query.perPage) || 10,
         };
 
         try {
@@ -107,6 +107,9 @@ module.exports = {
             },
             limit: pagination.perPage,
             offset: (pagination.page - 1) * pagination.perPage,
+            order: [
+              ['date', 'DESC'],
+          ],
           });
           if (!rows) {
             return res.status(400).send({
@@ -139,8 +142,9 @@ module.exports = {
 
         const userId = req.body.id;
 
-        const {year, month} = req.param;
+        const {year_month} = req.body;
 
+        const parsedDate = year_month.split('-')
 
         try {
 
@@ -175,6 +179,18 @@ module.exports = {
             });
           }
 
+          const payrollExist = await db.Payroll.findOne({
+            where: {
+              user_id: userId,
+              date: new Date(`${parsedDate[0]}-${parsedDate[1]}`),
+            },
+          });
+          if (payrollExist) {
+            return res.status(400).send({
+              message: "payroll for that month already exist",
+            });
+          }
+
         const payPerDay = Math.floor(payData[0].Employee_detail.Salary.basic_salary/21)
 
         const notValidCount = payData[0].Attendances.filter(
@@ -190,7 +206,7 @@ module.exports = {
             total_deduction: totalDeduction,
             total_payroll: payData[0].Employee_detail.Salary.basic_salary - totalDeduction
         });
-          
+
           res.send({
             message: "payroll for that employee this month",
             data: newPayroll,
@@ -198,7 +214,7 @@ module.exports = {
 
         } catch (error) {
           res.status(500).send({
-            message: "fatal error on server",
+            message: "could not find attendance data",
             error: error.message,
           });
         }
@@ -273,5 +289,33 @@ module.exports = {
           });
         }
     },
+
+    async employeeData(req, res) {
+
+      const userId = req.user.id;
+
+      try {
+
+        const empData = await db.Employee_detail.findAll({
+        });
+
+        if (!empData) {
+          return res.status(400).send({
+            message: "no employee data found",
+          });
+        }
+        
+        res.send({
+          message: "all employee data displayed",
+          data: empData,
+        });
+
+      } catch (error) {
+        res.status(500).send({
+          message: "fatal error on server",
+          error: error.message,
+        });
+      }
+  },
 
 }

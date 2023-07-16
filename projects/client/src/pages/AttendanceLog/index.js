@@ -5,6 +5,7 @@ import { Alert, Button, Pagination } from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
+import { useSelector } from "react-redux";
 
 function AttendanceLog() {
 
@@ -31,7 +32,9 @@ function AttendanceLog() {
       setClockLog(response.data.data);
       setTotalPages(Math.ceil(response.data.pagination.totalData / 7));
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      setError(err.response.data.message) 
+    });
 
   }, [month, year, currentPage])
 
@@ -58,9 +61,10 @@ function AttendanceLog() {
       </span>
     </Alert>) : isError
     }
-    <div className='text-white'>choose month and year of attendance</div>
+    <div className='border-solid border-1 border-[#2E4F4F] p-1 bg-[#CBE4DE] text-[#0E8388] font-bold'>choose month and year of attendance</div>
     <div>
       <DatePicker
+      className='mt-3 ml-3'
       selected={monthYear}
       onChange={(date) => handleCalendarChange(date)}
       dateFormat="MM-yyyy"

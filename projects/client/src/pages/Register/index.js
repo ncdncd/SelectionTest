@@ -6,6 +6,7 @@ import { ErrorMessage, Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const RegisterPage = () => {

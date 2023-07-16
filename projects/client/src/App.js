@@ -14,6 +14,7 @@ import SetEmployeeInfo from "./pages/SetEmployeeInfo";
 import HomePage from "./pages/Home";
 import ClockPage from "./pages/ClockPage";
 import AttendanceLog from "./pages/AttendanceLog";
+import GeneratePayroll from "./pages/GeneratePayroll";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/log",
     element: <AttendanceLog />,
+  },
+  {
+    path: "/generatepayroll",
+    element: <GeneratePayroll />,
   },
 ]);
 

@@ -28,7 +28,7 @@ router.get(
 );
 
 router.post(
-    "/pay",
+    "/payroll",
     authMiddleware.verifyTokenAdmin,
     attendanceController.calculatePayAtEoM
 );
@@ -37,6 +37,12 @@ router.get(
     "/payroll",
     authMiddleware.verifyTokenStaff,
     attendanceController.employeePayrollReport
+);
+
+router.get(
+    "/employee",
+    authMiddleware.verifyTokenAdmin,
+    attendanceController.employeeData
 );
 
 module.exports = router;
