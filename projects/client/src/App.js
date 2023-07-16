@@ -75,10 +75,6 @@ const router = createBrowserRouter([
         element: <RegisterPage />,
       },
       {
-        path: "/access",
-        element: <SetEmployeeInfo />,
-      },
-      {
         path: "/clock",
         element: <ClockPage />,
       },
@@ -95,6 +91,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/access",
+    element: <SetEmployeeInfo />,
   },
 ]);
 

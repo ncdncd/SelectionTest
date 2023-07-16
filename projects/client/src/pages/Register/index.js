@@ -25,7 +25,7 @@ const RegisterPage = () => {
       }
        )
       .then((response) => {
-        navigate("/");
+        alert("email sent to the employee");
       })
       .catch((e) => {
         setError(e.response.data.message);

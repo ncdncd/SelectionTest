@@ -39,7 +39,7 @@ const LoginPage = () => {
         })
         .catch (e =>{
           console.log(e);
-          setError(e.response.data)   
+          setError(e.response.data.message)   
         });
     
   };

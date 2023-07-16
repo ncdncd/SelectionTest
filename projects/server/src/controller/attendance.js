@@ -148,6 +148,18 @@ module.exports = {
           
           const parsedDate = year_month.split('-')
 
+          const payrollExist = await db.Payroll.findOne({
+            where: {
+              user_id: userId,
+              date: new Date(`${year_month}`),
+            },
+          });
+          if (payrollExist) {
+            return res.status(400).send({
+              message: "payroll for that month already exist",
+            });
+          }
+
           const payData = await db.User.findAll({
             where: {
               id: userId
@@ -179,17 +191,6 @@ module.exports = {
             });
           }
 
-          const payrollExist = await db.Payroll.findOne({
-            where: {
-              user_id: userId,
-              date: new Date(`${parsedDate[0]}-${parsedDate[1]}`),
-            },
-          });
-          if (payrollExist) {
-            return res.status(400).send({
-              message: "payroll for that month already exist",
-            });
-          }
 
         const payPerDay = Math.floor(payData[0].Employee_detail.Salary.basic_salary/21)
 
@@ -253,7 +254,7 @@ module.exports = {
         } catch (error) {
           res.status(500).send({
             message: "fatal error on server",
-            error: error.response.data,
+            error: error.message,
           });
         }
     },

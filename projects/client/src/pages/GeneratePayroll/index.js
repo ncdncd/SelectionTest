@@ -31,7 +31,6 @@ function GeneratePayroll() {
         }
         )
         .then((response) => {
-            alert("payroll generated");
           setEmployeeData(response.data.data);
           setAlertMessage(response.data.message);
         })
@@ -51,6 +50,7 @@ function GeneratePayroll() {
           })
     
           .then((response) => {
+            alert("payroll generated");
             setEmployeePayroll(response.data.data);
             setAlertMessage(response.data.message);
           })

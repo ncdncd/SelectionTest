@@ -42,10 +42,10 @@ const SetEmployeeInfo = () => {
         .post(`http://localhost:8000/api/auth/access`, values)
   
         .then((response) => {
-          setValue(response.data);
+          alert("data updated, welcome to the company!");
           setAlertMessage(response.data.message);
           setTimeout(() => {
-            navigate("/");
+            navigate("/login");
           }, 3000);
         })
         .catch((err) => {
