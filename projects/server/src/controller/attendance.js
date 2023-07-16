@@ -88,14 +88,12 @@ module.exports = {
 
         const userId = req.user.id;
 
-        const {year_month} = req.body;
+        const {year, month} = req.query;
 
         const pagination = {
           page: Number(req.query.page) || 1,
           perPage: Number(req.query.perPage) || 7,
         };
-
-        const parsedDate = year_month.split('-')
 
         try {
 
@@ -103,18 +101,13 @@ module.exports = {
             where: {
               user_id: userId,
               [Sequelize.Op.and]: [
-                Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), parsedDate[0]),
-                Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), parsedDate[1]),
+                Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), year),
+                Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), month),
             ],
             },
             limit: pagination.perPage,
             offset: (pagination.page - 1) * pagination.perPage,
           });
-          if (count === 0) {
-            return res.status(400).send({
-              message: "zero attendance data found",
-            });
-          }
           if (!rows) {
             return res.status(400).send({
               message: "attendance data not found",
@@ -146,9 +139,7 @@ module.exports = {
 
         const userId = req.body.id;
 
-        const {year_month} = req.body;
-
-        const parsedDate = year_month.split('-')
+        const {year, month} = req.param;
 
 
         try {
