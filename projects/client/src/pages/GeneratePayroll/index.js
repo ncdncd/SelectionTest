@@ -5,6 +5,7 @@ import { Alert, Button, Label } from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
 import DatepickerField from "./Datepickerfield";
 import { Formik, Field } from 'formik';
+import rupiah from '../../utils/currency';
 
 
 function GeneratePayroll() {
@@ -120,6 +121,8 @@ function GeneratePayroll() {
                     Generate
                 </Button>
             </form>
+            <div>payroll: {employeePayroll.total_payroll ? rupiah(employeePayroll.total_payroll): "not yet generated"}</div>
+            <div>deduction: {employeePayroll.total_deduction ? rupiah(employeePayroll.total_deduction): "not yet generated"}</div>
         </div>
           )}
         </Formik>

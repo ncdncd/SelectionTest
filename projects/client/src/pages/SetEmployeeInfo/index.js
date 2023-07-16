@@ -42,6 +42,7 @@ const SetEmployeeInfo = () => {
         .then((response) => {
           alert("data updated, welcome to the company!");
           setAlertMessage(response.data.message);
+          localStorage.removeItem("token");
           setTimeout(() => {
             navigate("/login");
           }, 3000);

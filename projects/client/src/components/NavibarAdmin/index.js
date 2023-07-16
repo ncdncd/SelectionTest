@@ -18,7 +18,7 @@ const NavibarAdmin = () => {
     rounded={true}
     >
     <Navbar.Brand>
-      <Link to="/"><h1 className='text-xl font-serif text-gray-100'>AA Company Admin</h1></Link>
+      <Link to="/"><h1 className='ml-2 text-xl font-serif text-gray-100'>AA Company Admin</h1></Link>
     </Navbar.Brand>
     <div className="flex md:order-2">
  

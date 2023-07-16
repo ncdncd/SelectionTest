@@ -8,7 +8,7 @@ const HomePage = () => {
       <div className="grid grid-col-2 grid-flow-row">
         <div>
       <Clock
-      className="text-white"
+      className="ml-2 text-white"
           format={'dddd, MMMM Mo, YYYY, h:mm:ss A'}
           style={{fontSize: '1.5em'}}
           ticking={true} />

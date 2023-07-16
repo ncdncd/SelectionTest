@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setToken } from "../../features/authSlice";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from 'react-icons/hi';
+import withAuthLogin from "../../components/withAuthLogin";
 
 const createSchema = Yup.object().shape({
   password: Yup.string()
@@ -126,4 +127,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default withAuthLogin(LoginPage);
