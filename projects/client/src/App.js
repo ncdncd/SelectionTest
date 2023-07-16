@@ -13,6 +13,7 @@ import RegisterPage from "./pages/Register";
 import SetEmployeeInfo from "./pages/SetEmployeeInfo";
 import HomePage from "./pages/Home";
 import ClockPage from "./pages/ClockPage";
+import AttendanceLog from "./pages/AttendanceLog";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/clock",
     element: <ClockPage />,
+  },
+  {
+    path: "/log",
+    element: <AttendanceLog />,
   },
 ]);
 

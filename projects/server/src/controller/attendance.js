@@ -88,31 +88,50 @@ module.exports = {
 
         const userId = req.user.id;
 
-        const {month, year} = req.body;
+        const {year_month} = req.body;
+
+        const pagination = {
+          page: Number(req.query.page) || 1,
+          perPage: Number(req.query.perPage) || 7,
+        };
+
+        const parsedDate = year_month.split('-')
 
         try {
 
-          const clockData = await db.Attendance.findAll({
+          const {count, rows } = await db.Attendance.findAndCountAll({
             where: {
               user_id: userId,
-              date: {[Sequelize.Op.between]: 
-                [new Date(`${year}-${month}-1`),new Date(`${year}-${month + 1}`)]}
+              [Sequelize.Op.and]: [
+                Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), parsedDate[0]),
+                Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), parsedDate[1]),
+            ],
             },
+            limit: pagination.perPage,
+            offset: (pagination.page - 1) * pagination.perPage,
           });
-          if (clockData === "") {
+          if (count === 0) {
             return res.status(400).send({
               message: "zero attendance data found",
             });
           }
-          if (!clockData) {
+          if (!rows) {
             return res.status(400).send({
               message: "attendance data not found",
             });
           }
+        
+        const totalPages = Math.ceil(count / pagination.perPage);
           
           res.send({
             message: "attendance data displayed",
-            data: clockData,
+            pagination: {
+              page: pagination.page,
+              perPage: pagination.perPage,
+              totalPages: totalPages,
+              totalData: count,
+            },
+            data: rows,
           });
 
         } catch (error) {
@@ -127,7 +146,10 @@ module.exports = {
 
         const userId = req.body.id;
 
-        const {month, year} = req.body;
+        const {year_month} = req.body;
+
+        const parsedDate = year_month.split('-')
+
 
         try {
 
@@ -142,8 +164,10 @@ module.exports = {
                 },
                 {model: db.Attendance, attributes: ['clock_in', 'clock_out', 'date', 'isValid'],
                 where: {
-                    date: {[Sequelize.Op.between]: 
-                      [new Date(`${year}-${month}-1`),new Date(`${year}-${month + 1}`)]}
+                  [Sequelize.Op.and]: [
+                    Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), parsedDate[0]),
+                    Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), parsedDate[1]),
+                ],
                   },
                 }
             ],
@@ -171,7 +195,7 @@ module.exports = {
 
         const newPayroll = await db.Payroll.create({
             user_id: userId,
-            date: new Date(`${year}-${month + 1}`),
+            date: new Date(`${year_month}`),
             total_deduction: totalDeduction,
             total_payroll: payData[0].Employee_detail.Salary.basic_salary - totalDeduction
         });
@@ -193,14 +217,20 @@ module.exports = {
 
         const userId = req.user.id;
 
-        const {month, year} = req.body;
+        const {year_month} = req.body;
+
+        const parsedDate = year_month.split('-')
+        
 
         try {
 
           const payRollData = await db.Payroll.findOne({
             where: {
               user_id: userId,
-              date: new Date(`${year}-${month + 1}`)
+              [Sequelize.Op.and]: [
+                Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), parsedDate[0]),
+                Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), parsedDate[1]),
+            ],
             },
           });
           if (!payRollData) {
