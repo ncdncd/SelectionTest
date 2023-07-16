@@ -3,7 +3,6 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Formik } from "formik";
-import { useNavigate } from "react-router-dom";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import axios from "axios";
@@ -14,7 +13,6 @@ const RegisterPage = () => {
 
   const token = localStorage.getItem("token");
 
-  const navigate = useNavigate();
   const handleSubmit = (value, action) => {
     axios
       .post(`http://localhost:8000/api/auth/register`, value,

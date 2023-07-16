@@ -81,7 +81,6 @@ module.exports = {
         return res.status(400).send({ message: "token is not valid" });
       }
 
-      // check token expiration
       const tokenAcc = new Date(userData.exp_access_token);
       const now = new Date();
       tokenAcc.setHours(tokenAcc.getHours() + 48);
@@ -100,7 +99,6 @@ module.exports = {
         salary_id: userData.id,
       });
 
-      // generate password
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
 
@@ -169,6 +167,7 @@ module.exports = {
         where: {
           id: userId
         },
+        include:[{model: db.Employee_detail, attributes: ['full_name'], as: "Employee_detail"},]
       });
       if (!user) {
         return res.status(400).send({

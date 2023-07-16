@@ -1,17 +1,16 @@
 "use client";
 
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Button, Label, TextInput } from "flowbite-react";
+import { Formik } from "formik";
 import * as Yup from "yup";
 // import "./style.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import React, {useState} from "react";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../features/authSlice";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from 'react-icons/hi';
-import "boxicons";
 
 const createSchema = Yup.object().shape({
   password: Yup.string()

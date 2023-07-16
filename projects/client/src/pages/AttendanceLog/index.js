@@ -5,8 +5,7 @@ import { Alert, Button, Pagination, TextInput, Label} from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
-import { useSelector } from "react-redux";
-import { Formik, Field} from 'formik';
+import { Formik } from 'formik';
 import rupiah from '../../utils/currency';
 
 function AttendanceLog() {

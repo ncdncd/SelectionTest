@@ -1,7 +1,4 @@
 import DatePicker from "react-datepicker";
-import { useState } from "react";
-import { getMonth, getYear } from 'date-fns';
-import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 
 const DatepickerField = ({

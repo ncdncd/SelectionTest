@@ -4,7 +4,7 @@ import { Alert } from "flowbite-react";
 import * as Yup from "yup";
 import { Formik, Field } from "formik";
 import { useNavigate } from "react-router-dom";
-import { Button, Label, TextInput, Textarea } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import DatepickerField from "./Datepickerfield";
 
 
@@ -24,10 +24,8 @@ const SetEmployeeInfo = () => {
     
     const tokenParams = new URLSearchParams(window.location.search).get('token')
   
-    const [value, setValue] = useState("");
     const [alertMessage, setAlertMessage] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [birthDate, setBirthDate] = useState(new Date());
     const [isError, setError] = useState("");
 
     const navigate = useNavigate();
@@ -69,6 +67,21 @@ const SetEmployeeInfo = () => {
           </Alert>
         ) : (
           alertMessage
+        )}
+        {isError ? (
+          <Alert
+            color="success"
+            icon={HiInformationCircle}
+            onDismiss={() => setError("")}
+          >
+            <span>
+              <p>
+                <span className="font-medium">{isError}</span>
+              </p>
+            </span>
+          </Alert>
+        ) : (
+          isError
         )}
         <Formik
           initialValues={{

@@ -3,9 +3,6 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Alert, Button, Label } from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
-import moment from 'moment';
-import { useSelector } from "react-redux";
-import rupiah from "../../utils/currency";
 import DatepickerField from "./Datepickerfield";
 import { Formik, Field } from 'formik';
 
@@ -13,11 +10,9 @@ import { Formik, Field } from 'formik';
 function GeneratePayroll() {
 
     const [isError, setError] = useState("");
-    const [monthYear, setMonthYear] = useState(new Date());
     const [employeePayroll, setEmployeePayroll] = useState({});
     const [employeeData, setEmployeeData] = useState([]);
     const [alertMessage, setAlertMessage] = ("");
-    const [employeeId, setEmployeeId] = ("");
   
     const token = localStorage.getItem("token");
 
