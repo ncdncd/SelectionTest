@@ -8,6 +8,9 @@ function withAuthLogin(Component) {
     if(localStorage.getItem("token")){    
     return <Navigate to="/" replace />
         }
+
+    return <Component {...props} />
+
     }
 }
 
