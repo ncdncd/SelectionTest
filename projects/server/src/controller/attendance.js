@@ -92,7 +92,7 @@ module.exports = {
 
         const pagination = {
           page: Number(req.query.page) || 1,
-          perPage: Number(req.query.perPage) || 10,
+          perPage: Number(req.query.perPage) || 7,
         };
 
         try {
@@ -253,7 +253,7 @@ module.exports = {
         } catch (error) {
           res.status(500).send({
             message: "fatal error on server",
-            error: error.message,
+            error: error.response.data,
           });
         }
     },

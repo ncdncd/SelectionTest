@@ -9,7 +9,7 @@ function withAuth(Component) {
     return <Component {...props} />
     }
 
-    return <Navigate to="/" replace />
+    return <Navigate to="/login" replace />
   
     }
 }

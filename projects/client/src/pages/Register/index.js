@@ -2,12 +2,12 @@
 
 import { Button, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
-import { useSelector } from "react-redux";
 import axios from "axios";
+import withAuth from "../../components/withAuth";
 
 const RegisterPage = () => {
   const [isError, setError] = useState("");
@@ -113,4 +113,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default withAuth(RegisterPage);

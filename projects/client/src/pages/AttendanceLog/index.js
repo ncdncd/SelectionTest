@@ -1,11 +1,13 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Alert, Button, Pagination } from 'flowbite-react';
+import { Alert, Button, Pagination, TextInput, Label} from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import { useSelector } from "react-redux";
+import { Formik, Field} from 'formik';
+import rupiah from '../../utils/currency';
 
 function AttendanceLog() {
 
@@ -13,9 +15,11 @@ function AttendanceLog() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isError, setError] = useState("");
-  const [month, setMonth] = useState(new Date().getMonth() + 1)
-  const [year, setYear] = useState(new Date().getFullYear())
-  const [monthYear, setMonthYear] = useState(new Date())
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [monthYear, setMonthYear] = useState(new Date());
+  const [payrollMonth, setPayrollMonth] = useState(null);
+  const [payrollYear, setPayrollYear] = useState(null);
 
   const token = localStorage.getItem("token");
 
@@ -43,6 +47,42 @@ function AttendanceLog() {
     setYear(new Date(date).getFullYear());
     setMonthYear(date);
   }
+
+  const handleClickMonth = () =>{
+    axios
+      .post('http://localhost:8000/api/attendance/payrollmonth', {"year_month": monthYear},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+       )
+      .then((response) => {
+        alert("payroll for the chosen month");
+        setPayrollMonth(response.data.data)
+      })
+      .catch((e) => {
+        setError(e.response.data.message);
+      });
+  }
+
+  const handleSubmit = (values) =>{
+    axios
+      .post('http://localhost:8000/api/attendance/payrollyear',values,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+       )
+      .then((response) => {
+        alert("payroll for chosen year");
+        setPayrollYear(response.data.data)
+      })
+      .catch((e) => {
+        setError(e.response.data.message);
+      });
+  }
   
 
   return (
@@ -62,14 +102,50 @@ function AttendanceLog() {
     </Alert>) : isError
     }
     <div className='border-solid border-1 border-[#2E4F4F] p-1 bg-[#CBE4DE] text-[#0E8388] font-bold'>choose month and year of attendance</div>
+    
     <div>
+      <div  className='grid grid-cols-3 grid-flow-row mt-4 text-[#0E8388] font-bold'>
       <DatePicker
       className='mt-3 ml-3'
       selected={monthYear}
       onChange={(date) => handleCalendarChange(date)}
       dateFormat="MM-yyyy"
       showMonthYearPicker
-    />
+      />
+      <button className='border-solid border-2 bg-[#CBE4DE]' onClick={handleClickMonth}>Payroll</button>
+      <Formik
+          initialValues={{
+            year: "",
+          }}
+          onSubmit={handleSubmit}
+        >
+          {(props) => (
+            <div className='grid grid-cols-3 grid-flow-row mt-4 ml-4 text-[#0E8388] font-bold' >
+            <form className="grid gap-4" onSubmit={props.handleSubmit}>
+            <div className="">
+                  <Label
+                    style={{ fontSize: "18px" }}
+                    htmlFor="year"
+                    value="year for payroll"
+                    className="text-white"
+                  />
+                </div>
+                <TextInput
+                  className="input-wrapper"
+                  id="year"
+                  name="year"
+                  type="text"
+                  onChange={props.handleChange}
+                  value={props.values.year}
+                />
+                  <Button type="submit" className="bg-[#2E4F4F] border-2 border-[#CBE4DE]">
+                    Generate
+                </Button>
+            </form>
+        </div>
+          )}
+        </Formik>
+      </div>
     <div  className='grid grid-cols-3 grid-flow-row mt-4 text-[#0E8388] font-bold'>
     <div className='border-solid border-2 border-[#2E4F4F] p-2 bg-[#CBE4DE]'>Clock in</div>
     <div className='border-solid border-2 border-[#2E4F4F] p-2 bg-[#CBE4DE]'>Clock Out</div>
@@ -83,6 +159,17 @@ function AttendanceLog() {
             <div className='m-1'>{moment(Clock.date).format("dddd, MMMM Do YYYY")}</div>
           </div>
         ))}
+      <div  className='grid grid-cols-2 grid-flow-row mt-4 text-[#0E8388] font-bold'>
+      <div>
+      Payroll this month: {payrollMonth ? rupiah(payrollMonth.total_payroll) : "payroll not out yet"}
+      <br/>
+      Deduction: {payrollMonth ? rupiah(payrollMonth.total_deduction) : "payroll not out yet"}
+      </div>
+      <div>
+      Payroll this year: {payrollYear ? rupiah(payrollYear) : "payroll not out yet"}
+      </div>
+      </div>
+    
     
     <Pagination
           currentPage={currentPage}

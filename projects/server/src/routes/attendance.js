@@ -33,13 +33,13 @@ router.post(
     attendanceController.calculatePayAtEoM
 );
 
-router.get(
-    "/payroll",
+router.post(
+    "/payrollmonth",
     authMiddleware.verifyTokenStaff,
     attendanceController.employeePayrollReport
 );
 
-router.get(
+router.post(
     "/payrollyear",
     authMiddleware.verifyTokenStaff,
     attendanceController.employeePayrollReportYear

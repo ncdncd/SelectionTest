@@ -35,7 +35,7 @@ const LoginPage = () => {
         .then((response) => {
           localStorage.setItem("token", response.data.accessToken);
           dispatch(setToken(response.data.accessToken));
-          navigate("/");
+          navigate("/")   
         })
         .catch (e =>{
           console.log(e);

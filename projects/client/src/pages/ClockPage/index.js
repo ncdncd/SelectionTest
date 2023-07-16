@@ -5,8 +5,6 @@ import { Alert, Button } from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
 import Clock from 'react-live-clock';
 import moment from 'moment'
-import { useSelector } from "react-redux";
-
 
 
 function ClockPage() {
@@ -47,6 +45,7 @@ function ClockPage() {
       }
        )
       .then((response) => {
+        alert("clocked in for today");
         setClockIn(response.data.data)
       })
       .catch((e) => {
@@ -66,6 +65,7 @@ function ClockPage() {
       }
        )
       .then((response) => {
+        alert("clocked out for today");
         setClockOut(response.data.data)
       })
       .catch((e) => {

@@ -20,4 +20,10 @@ router.post(
   authController.login
 );
 
+router.get(
+  "/keeplogin", 
+  authMiddleware.verifyToken, 
+  authController.keepLogin
+);
+
 module.exports = router;
