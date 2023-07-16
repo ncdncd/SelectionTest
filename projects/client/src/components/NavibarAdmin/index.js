@@ -25,10 +25,10 @@ const NavibarAdmin = () => {
         <Navbar.Toggle />
         </div>
           <Navbar.Collapse className='text-gray-100'>
-            <Navbar.Link href="/clock" class='text-gray-100 hover:text-gray-800 transition'>
+            <Navbar.Link href="/generatepayroll" class='text-gray-100 hover:text-gray-800 transition'>
               Employee Payroll
             </Navbar.Link>
-            <Navbar.Link href="/log" class='text-gray-100 hover:text-gray-800 transition'>
+            <Navbar.Link href="/register" class='text-gray-100 hover:text-gray-800 transition'>
               Register new employee
             </Navbar.Link>
             <Navbar.Link href="/" onClick={handleLogOut} class='text-gray-100 hover:text-gray-800 transition'>

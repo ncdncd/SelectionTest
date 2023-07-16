@@ -29,9 +29,8 @@ function App() {
     if (token) {
       dispatch(setToken(token));
     }
+
   },);
-
-
 
 const [userData, setUserData] = useState({});
 
@@ -45,24 +44,17 @@ useEffect(() => {
       }
   )
   .then((response) => {
-    setUserData(response.data)
+    setUserData(response.data.data)
   })
   .catch((err) => console.log(err))
 
 }, [])
 
 
-const LayoutLogged = () =>{
-  if(userData.role_id === 1){
-    return <NavibarAdmin/>
-  }
-    return <Navibar/>
-}
-
 const Layout = () => {
   return (
     <>
-    <LayoutLogged/>
+    {userData.role_id === 1 ? (<NavibarAdmin/>) : (<Navibar/>)}
     <Outlet/>
     </>
   );
