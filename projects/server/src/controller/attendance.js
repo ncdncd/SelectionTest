@@ -144,9 +144,9 @@ module.exports = {
 
         const {year_month} = req.body;
 
-        const parsedDate = year_month.split('-')
-
         try {
+          
+          const parsedDate = year_month.split('-')
 
           const payData = await db.User.findAll({
             where: {
@@ -226,10 +226,9 @@ module.exports = {
 
         const {year_month} = req.body;
 
-        const parsedDate = year_month.split('-')
-        
-
         try {
+          
+          const parsedDate = year_month.split('-')
 
           const payRollData = await db.Payroll.findOne({
             where: {
@@ -258,6 +257,46 @@ module.exports = {
           });
         }
     },
+
+    async employeePayrollReportYear(req, res) {
+
+      const userId = req.user.id;
+
+      const {year} = req.body;
+      
+      try {
+
+        const payRollDataYear = await db.Payroll.findAll({
+          where: {
+            user_id: userId,
+            [Sequelize.Op.and]: [
+              Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), year),
+          ],
+          },
+        });
+        if (!payRollDataYear) {
+          return res.status(400).send({
+            message: "payroll data not found",
+          });
+        }
+
+        const totalOnly = payRollDataYear.map(
+          (m) => m.total_payroll)
+
+        const totalSalary = totalOnly.reduce((total, n) => total + n, 0)
+        
+        res.send({
+          message: "your payroll for the chosen timeframe",
+          data: totalSalary,
+        });
+
+      } catch (error) {
+        res.status(500).send({
+          message: "fatal error on server",
+          error: error.message,
+        });
+      }
+  },
 
     async clockToday(req, res) {
 

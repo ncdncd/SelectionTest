@@ -40,6 +40,12 @@ router.get(
 );
 
 router.get(
+    "/payrollyear",
+    authMiddleware.verifyTokenStaff,
+    attendanceController.employeePayrollReportYear
+);
+
+router.get(
     "/employee",
     authMiddleware.verifyTokenAdmin,
     attendanceController.employeeData
